@@ -1,12 +1,12 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from 'store';
-import GraphContainer from 'components/GraphContainer';
+import NavigationContainer from 'components/NavigationContainer';
 
 function App() {
   return (
     <Provider store={store}>
-      <GraphContainer />
+      <NavigationContainer />
     </Provider>
   );
 }

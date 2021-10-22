@@ -1,5 +1,8 @@
-enum MutationType {
+export enum MutationType {
+  // Navigation
+  NAVIGATION_CHANGE_LOCATION = 'NAVIGATION_CHANGE_LOCATION',
 
+  // DatasetSelection
+  DATASET_SELECTION_CHANGE_CODE = 'DATASET_SELECTION_CHANGE_CODE',
+  DATASET_SELECTION_CLEAR = 'DATASET_SELECTION_CLEAR',
 }
-
-export { MutationType };

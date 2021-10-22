@@ -1,0 +1,12 @@
+#top-actions-bar {
+  padding: 10px;
+}
+
+#top-actions-bar .button-container {
+  display: flex;
+  justify-content: center;
+}
+
+#top-actions-bar #dataset-file {
+  display: none;
+}
