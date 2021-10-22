@@ -11,6 +11,15 @@ import { IMutation } from 'store/mutations/IMutation';
 //         [new Date(Date.now() + 4 * 24 * 60 * 60 * 1000), 30],
 //         [new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), 50],
 //       ]
+//     },
+//     {
+//       key: 'test2',
+//       label: 'Test Chart 2',
+//       data: [
+//         [new Date(), 5],
+//         [new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), 30],
+//         [new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), 50],
+//       ]
 //     }
 //   ],
 //   axes: [
