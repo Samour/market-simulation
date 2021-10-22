@@ -1,0 +1,5 @@
+enum MutationType {
+
+}
+
+export { MutationType };
