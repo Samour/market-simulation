@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigationService } from 'services/NavigationService';
-import { AdditionalCapitalFrequency } from 'store/model/InvestmentStrategyState';
+import { AdditionalCapitalFrequency } from 'simulator/models/InvestmentStrategy';
 import { Views } from 'store/model/NavigationState';
 import { investmentStrategySetStrategy } from 'store/mutations/investmentStrategy/InvestmentStrategySetStrategyMutation';
 
@@ -44,7 +44,7 @@ export const useStrategySelectionForm = () => {
     dispatch(investmentStrategySetStrategy({
       initialCapital: parseNumeric(initialCapital),
       periodicAdditionalCapital,
-      additionalCapitalFrequency: additionalCapitalFrequency || AdditionalCapitalFrequency.YEARLY,
+      additionalCapitalFrequency: additionalCapitalFrequency || AdditionalCapitalFrequency.NOT_APPLICABLE,
       perTradeCost: parseNumeric(perTradeCost),
     }));
     navigationService.navigateTo(Views.MainAnalysisView);

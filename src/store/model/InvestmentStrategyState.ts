@@ -1,11 +1,4 @@
-export enum AdditionalCapitalFrequency {
-  DAILY = 'Daily',
-  WEEKLY = 'WEEKLY',
-  FORTNIGHTLY = 'FORTNIGHTLY',
-  MONTHLY = 'MONTHLY',
-  QUARTERLY = 'QUARTERLY',
-  YEARLY = 'YEARLY',
-}
+import { AdditionalCapitalFrequency } from 'simulator/models/InvestmentStrategy';
 
 export interface InvestmentStrategy {
   initialCapital: number;

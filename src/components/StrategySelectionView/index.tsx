@@ -11,10 +11,10 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import { AdditionalCapitalFrequency } from 'store/model/InvestmentStrategyState';
 import { useNavigationService } from 'services/NavigationService';
 import { useStrategySelectionForm } from './strategySelectionForm';
 import { Views } from 'store/model/NavigationState';
+import { AdditionalCapitalFrequency } from 'simulator/models/InvestmentStrategy';
 import './index.css';
 
 const StrategySelectionView = (): JSX.Element => {

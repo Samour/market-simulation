@@ -2,7 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Grid } from '@mui/material';
 import { AppState } from 'store/model/AppState';
-import { AdditionalCapitalFrequency, InvestmentStrategy } from 'store/model/InvestmentStrategyState';
+import { InvestmentStrategy } from 'store/model/InvestmentStrategyState';
+import { AdditionalCapitalFrequency } from 'simulator/models/InvestmentStrategy';
 import './show-investment-strategy.css';
 
 const selector = (state: AppState): InvestmentStrategy | null => state.investmentStrategy.investmentStrategy;
@@ -22,6 +23,8 @@ const frequencyDescription = (frequency: AdditionalCapitalFrequency): string => 
     return 'Quarterly';
   } else if (frequency === AdditionalCapitalFrequency.YEARLY) {
     return 'Yearly';
+  } else if (frequency === AdditionalCapitalFrequency.NOT_APPLICABLE) {
+    return 'N/A';
   } else {
     return frequency;
   }
