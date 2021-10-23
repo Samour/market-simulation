@@ -11,7 +11,7 @@ const GraphContainer = (): JSX.Element => {
   const { data, axes } = useSelector(selector);
 
   if (!data.length || axes.length < 2) {
-    return <div>No data</div>;
+    return <div id='graph-container' className='no-data'>No data</div>;
   }
 
   return (
