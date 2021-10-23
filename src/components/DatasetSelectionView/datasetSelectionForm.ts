@@ -13,6 +13,7 @@ export const useDatasetSelectionForm = () => {
   const [code, setCode] = useState<string>('');
   const [fileErrorMsg, setFileErrorMsg] = useState<string | null>(null);
   const [codeErrorMsg, setCodeErrorMsg] = useState<string | null>(null);
+  const [fileIsLoading, setFileIsLoading] = useState<boolean>(false);
 
   const onCancelClick = () => navigationService.navigateTo(Views.MainAnalysisView);
   const onConfirmClick = async () => {
@@ -35,7 +36,9 @@ export const useDatasetSelectionForm = () => {
       return;
     }
 
+    setFileIsLoading(true);
     const error = await datasetLoadService.loadDatasetFile(code, file as File);
+    setFileIsLoading(false);
     if (error) {
       setFileErrorMsg(error);
     } else {
@@ -47,6 +50,7 @@ export const useDatasetSelectionForm = () => {
     code,
     fileErrorMsg,
     codeErrorMsg,
+    fileIsLoading,
     setCode: (value: string) => {
       setCode(value);
       setCodeErrorMsg(null);

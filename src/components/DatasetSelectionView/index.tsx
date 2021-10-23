@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, TextField, Button } from '@mui/material';
+import { Container, Grid, TextField, Button, CircularProgress } from '@mui/material';
 import './index.css';
 import { useDatasetSelectionForm } from './datasetSelectionForm';
 
@@ -8,6 +8,7 @@ const DatasetSelectionView = (): JSX.Element => {
     fileErrorMsg,
     code,
     codeErrorMsg,
+    fileIsLoading,
     setCode,
     setFile,
     onCancelClick,
@@ -16,6 +17,8 @@ const DatasetSelectionView = (): JSX.Element => {
 
   const onCodeChange = (e: any) => setCode(e.target.value);
   const onFileChange = (e: any) => setFile(e.target.files[0] ?? null);
+
+  const confirmBtnContent = fileIsLoading ? <CircularProgress size='1.5rem' color='info' /> : 'Use dataset';
 
   return (
     <Container id='dataset-selection-view' maxWidth='md'>
@@ -34,10 +37,10 @@ const DatasetSelectionView = (): JSX.Element => {
             onChange={onCodeChange} />
         </Grid>
         <Grid item xs={6} md={3} className='input-container'>
-          <Button color='secondary' onClick={onCancelClick}>Cancel</Button>
+          <Button color='secondary' disabled={fileIsLoading} onClick={onCancelClick}>Cancel</Button>
         </Grid>
         <Grid item xs={6} md={3} className='input-container'>
-          <Button variant='contained' onClick={onConfirmClick}>Use dataset</Button>
+          <Button variant='contained' disabled={fileIsLoading} onClick={onConfirmClick}>{confirmBtnContent}</Button>
         </Grid>
       </Grid>
     </Container>
