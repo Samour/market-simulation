@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigationService } from 'services/NavigationService';
-import { AdditionalCapitalFrequency } from 'simulator/models/InvestmentStrategy';
+import { InvestmentFrequency } from 'simulator/models/InvestmentStrategy';
 import { Views } from 'store/model/NavigationState';
 import { investmentStrategySetStrategy } from 'store/mutations/investmentStrategy/InvestmentStrategySetStrategyMutation';
 
@@ -13,9 +13,10 @@ export const useStrategySelectionForm = () => {
   const [initialCapital, setInitialCapital] = useState<string>('0');
   const [additionalCapital, setAdditionalCapital] = useState<string>('0');
   const [
-    additionalCapitalFrequency,
-    setAdditionalCapitalFrequency
-  ] = useState<AdditionalCapitalFrequency | ''>('');
+    investmentFrequency,
+    setInvestmentFrequency,
+  ] = useState<InvestmentFrequency | ''>('');
+  const [maxInvestmentPerTrade, setMaxInvestmentPerTrade] = useState<string>('0');
   const [perTradeCost, setPerTradeCost] = useState<string>('0');
   const [frequencyErrorMsg, setFrequencyErrorMsg] = useState<string | null>(null);
 
@@ -35,16 +36,16 @@ export const useStrategySelectionForm = () => {
   };
 
   const onSubmit = () => {
-    const periodicAdditionalCapital = parseNumeric(additionalCapital);
-    if (!!periodicAdditionalCapital && !additionalCapitalFrequency) {
+    if (!investmentFrequency) {
       setFrequencyErrorMsg('You must select a frequency');
       return;
     }
 
     dispatch(investmentStrategySetStrategy({
       initialCapital: parseNumeric(initialCapital),
-      periodicAdditionalCapital,
-      additionalCapitalFrequency: additionalCapitalFrequency || AdditionalCapitalFrequency.NOT_APPLICABLE,
+      periodicAdditionalCapital: parseNumeric(additionalCapital),
+      investmentFrequency,
+      maxInvestmentPerTrade: parseNumeric(maxInvestmentPerTrade),
       perTradeCost: parseNumeric(perTradeCost),
     }));
     navigationService.navigateTo(Views.MainAnalysisView);
@@ -53,15 +54,17 @@ export const useStrategySelectionForm = () => {
   return {
     initialCapital,
     additionalCapital,
-    additionalCapitalFrequency,
+    investmentFrequency,
+    maxInvestmentPerTrade,
     perTradeCost,
     frequencyErrorMsg,
     setInitialCapital: setIfValidAmount(setInitialCapital),
     setAdditionalCapital: setIfValidAmount(setAdditionalCapital),
-    setAdditionalCapitalFrequency: (value: AdditionalCapitalFrequency) => {
+    setInvestmentFrequency: (value: InvestmentFrequency) => {
       setFrequencyErrorMsg(null);
-      setAdditionalCapitalFrequency(value);
+      setInvestmentFrequency(value);
     },
+    setMaxInvestmentPerTrade: setIfValidAmount(setMaxInvestmentPerTrade),
     setPerTradeCost: setIfValidAmount(setPerTradeCost),
     onSubmit,
   };

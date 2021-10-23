@@ -1,9 +1,10 @@
-import { AdditionalCapitalFrequency } from 'simulator/models/InvestmentStrategy';
+import { InvestmentFrequency } from 'simulator/models/InvestmentStrategy';
 
 export interface InvestmentStrategy {
   initialCapital: number;
   periodicAdditionalCapital: number;
-  additionalCapitalFrequency: AdditionalCapitalFrequency;
+  investmentFrequency: InvestmentFrequency;
+  maxInvestmentPerTrade: number;
   perTradeCost: number;
 }
 
