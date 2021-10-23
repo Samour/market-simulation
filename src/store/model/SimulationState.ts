@@ -1,3 +1,8 @@
+export interface SimulationSettings {
+  startDate: Date;
+  endDate: Date;
+}
+
 export interface SimulationResult {
   uninvestedCapital: number;
   totalAmountInvested: number;
@@ -8,6 +13,7 @@ export interface SimulationResult {
 }
 
 export interface SimulationState {
+  simulationSettings: SimulationSettings | null;
   simulationInProgress: boolean;
   result: SimulationResult | null;
 }

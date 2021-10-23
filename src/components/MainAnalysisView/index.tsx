@@ -8,9 +8,15 @@ import ShowSimulationResult from './ShowSimulationResult';
 const MainAnalysisView = (): JSX.Element => {
   return (
     <Grid container>
-      <TopActionsBar />
-      <ShowInvestmentStrategy />
-      <ShowSimulationResult />
+      <Grid item xs={12}>
+        <TopActionsBar />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <ShowInvestmentStrategy />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <ShowSimulationResult />
+      </Grid>
       <GraphContainer />
     </Grid>
   );

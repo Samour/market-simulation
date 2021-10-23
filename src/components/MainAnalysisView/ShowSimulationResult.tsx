@@ -25,44 +25,42 @@ const ShowSimulationResult = (): JSX.Element => {
   }
 
   return (
-    <Grid item xs={12} sm={6} id='show-simulation-result'>
-      <Grid container>
-        <Grid item xs={6}>
-          Invested capital:
-        </Grid>
-        <Grid item xs={6}>
-          {toDollars(result.totalAmountInvested)}
-        </Grid>
-        <Grid item xs={6}>
-          Total expendature:
-        </Grid>
-        <Grid item xs={6}>
-          {toDollars(result.totalAmountSpent)}
-        </Grid>
-        <Grid item xs={6}>
-          Uninvested capital:
-        </Grid>
-        <Grid item xs={6}>
-          {toDollars(result.uninvestedCapital)}
-        </Grid>
-        <Grid item xs={6}>
-          Shares owned:
-        </Grid>
-        <Grid item xs={6}>
-          {result.sharesOwned}
-        </Grid>
-        <Grid item xs={6}>
-          Share value:
-        </Grid>
-        <Grid item xs={6}>
-          {toDollars(result.shareValue)}
-        </Grid>
-        <Grid item xs={6}>
-          Return on investment:
-        </Grid>
-        <Grid item xs={6}>
-          {result.returnOnInvestment} %
-        </Grid>
+    <Grid container id='show-simulation-result'>
+      <Grid item xs={6}>
+        Invested capital:
+      </Grid>
+      <Grid item xs={6}>
+        {toDollars(result.totalAmountInvested)}
+      </Grid>
+      <Grid item xs={6}>
+        Total expendature:
+      </Grid>
+      <Grid item xs={6}>
+        {toDollars(result.totalAmountSpent)}
+      </Grid>
+      <Grid item xs={6}>
+        Uninvested capital:
+      </Grid>
+      <Grid item xs={6}>
+        {toDollars(result.uninvestedCapital)}
+      </Grid>
+      <Grid item xs={6}>
+        Shares owned:
+      </Grid>
+      <Grid item xs={6}>
+        {result.sharesOwned}
+      </Grid>
+      <Grid item xs={6}>
+        Share value:
+      </Grid>
+      <Grid item xs={6}>
+        {toDollars(result.shareValue)}
+      </Grid>
+      <Grid item xs={6}>
+        Return on investment:
+      </Grid>
+      <Grid item xs={6}>
+        {result.returnOnInvestment} %
       </Grid>
     </Grid>
   )
