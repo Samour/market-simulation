@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { StockClosePrice } from 'store/model/StockDatasetsState';
-import { datasetSelectionFileErrorMutation } from 'store/mutations/datasetSelection/DatasetSelectionFileErrorMutation';
 import { stockDatasetsAddMutation } from 'store/mutations/stockDatasets/StockDatasetsAddMutation';
 import { stockDatasetsRemoveAllMutation } from 'store/mutations/stockDatasets/StockDatasetsRemoveAllMutation';
 import { IGraphService, useGraphService } from './GraphService';
@@ -11,7 +10,7 @@ import { IParseStrategy } from './parse/IParseStrategy';
 import { yahooFinanceParseStrategy } from './parse/YahooFinanceParseStrategy';
 
 export interface IDatasetLoadService {
-  loadDatasetFile(code: string, file: File): Promise<boolean>;
+  loadDatasetFile(code: string, file: File): Promise<string | null>;
 }
 
 class DatasetLoadService implements IDatasetLoadService {
@@ -29,13 +28,12 @@ class DatasetLoadService implements IDatasetLoadService {
     }).then((result) => this.parseStrategy(result));
   }
 
-  async loadDatasetFile(code: string, file: File): Promise<boolean> {
+  async loadDatasetFile(code: string, file: File): Promise<string | null> {
     let closePrices: StockClosePrice[];
     try {
       closePrices = await this.parseFileCSV(file);
     } catch (e) {
-      this.dispatch(datasetSelectionFileErrorMutation('There is a problem with the file format'));
-      return false;
+      return 'There is a problem with the file format';
     }
 
     this.dispatch(stockDatasetsRemoveAllMutation());
@@ -44,7 +42,7 @@ class DatasetLoadService implements IDatasetLoadService {
     this.graphService.clearAllGraphs();
     this.graphService.createGraphForStock(code);
 
-    return true;
+    return null;
   }
 }
 

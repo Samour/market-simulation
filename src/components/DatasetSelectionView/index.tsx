@@ -1,29 +1,21 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { Container, Grid, TextField, Button } from '@mui/material';
-import { useDatasetSelectionService } from 'services/DatasetSelectionService';
-import { AppState } from 'store/model/AppState';
-import { DatasetSelectionState } from 'store/model/DatasetSelectionState';
 import './index.css';
-
-const selector = (state: AppState): DatasetSelectionState => state.datasetSelection;
+import { useDatasetSelectionForm } from './datasetSelectionForm';
 
 const DatasetSelectionView = (): JSX.Element => {
-  const datasetSelectionService = useDatasetSelectionService();
   const {
     fileErrorMsg,
     code,
     codeErrorMsg,
-  } = useSelector(selector);
-  const [file, setFile] = useState<File | null>(null);
+    setCode,
+    setFile,
+    onCancelClick,
+    onConfirmClick,
+  } = useDatasetSelectionForm();
 
-  const onCodeChange = (e: any) => datasetSelectionService.setCode(e.target.value);
-  const onFileChange = (e: any) => {
-    setFile(e.target.files[0] ?? null);
-    datasetSelectionService.clearFileErrorMsg();
-  };
-  const onCancelClick = () => datasetSelectionService.cancelSelection();
-  const onConfirmClick = () => datasetSelectionService.validateAndLoadFile(code, file);
+  const onCodeChange = (e: any) => setCode(e.target.value);
+  const onFileChange = (e: any) => setFile(e.target.files[0] ?? null);
 
   return (
     <Container id='dataset-selection-view' maxWidth='md'>

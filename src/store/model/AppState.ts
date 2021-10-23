@@ -1,4 +1,3 @@
-import { DatasetSelectionState } from './DatasetSelectionState';
 import { GraphState } from './GraphState';
 import { InvestementStrategyState } from './InvestmentStrategyState';
 import { NavigationState } from './NavigationState';
@@ -8,6 +7,5 @@ export interface AppState {
   navigation: NavigationState;
   graphState: GraphState;
   stockDatasets: StockDatasetState;
-  datasetSelection: DatasetSelectionState;
   investmentStrategy: InvestementStrategyState;
 }
