@@ -15,4 +15,7 @@ export enum MutationType {
   // Graph
   GRAPH_ADD = 'GRAPH_ADD',
   GRAPH_REMOVE_ALL = 'GRAPH_REMOVE_ALL',
+
+  // InvestmentStrategy
+  INVESTMENT_STRATEGY_SET_STRATEGY = 'INVESTMENT_STRATEGY_SET_STRATEGY',
 }
