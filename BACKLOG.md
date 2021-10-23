@@ -1,7 +1,5 @@
 # Backlog
 
-As a user I want to select a stocks dataset from file so that I can perform analysis using that data
-
 As a user I want to see the stock value trend so that I can understand my dataset
 
 As a user I want to define an investment strategy that can be applied in the simulation run
@@ -19,5 +17,7 @@ As a user I want to run simulations on each scenario in an experiment so that I 
 As a user I want to view the outcome of each scenario in the experiment so that I can visually compare the different outcomes
 
 # Completed
+
+As a user I want to select a stocks dataset from file so that I can perform analysis using that data
 
 # Non-goals
