@@ -6,5 +6,5 @@ export interface AlgorithmState {
   stockTimeSeries: StockTimeSeries;
   investmentStrategy: InvestmentStrategy;
   accountBalances: AccountBalances;
-  lastTradeDate: Date | null;
+  lastPeriodCalculation: Date | null;
 }

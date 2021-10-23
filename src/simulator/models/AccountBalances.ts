@@ -4,5 +4,5 @@ export interface AccountBalances {
   // Liquid capital available for investment at the next trade
   availableCapital: number;
   // Number of stocks owned
-  stocksOwned: number;
+  sharesOwned: number;
 }
