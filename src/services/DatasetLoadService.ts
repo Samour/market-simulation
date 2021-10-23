@@ -5,6 +5,8 @@ import { Dispatch } from 'redux';
 import { StockClosePrice } from 'store/model/StockDatasetsState';
 import { datasetSelectionFileErrorMutation } from 'store/mutations/datasetSelection/DatasetSelectionFileErrorMutation';
 import { stockDatasetsAddMutation } from 'store/mutations/stockDatasets/StockDatasetsAddMutation';
+import { stockDatasetsRemoveAllMutation } from 'store/mutations/stockDatasets/StockDatasetsRemoveAllMutation';
+import { IGraphService, useGraphService } from './GraphService';
 import { IParseStrategy } from './parse/IParseStrategy';
 import { yahooFinanceParseStrategy } from './parse/YahooFinanceParseStrategy';
 
@@ -14,7 +16,8 @@ export interface IDatasetLoadService {
 
 class DatasetLoadService implements IDatasetLoadService {
 
-  constructor(private readonly parseStrategy: IParseStrategy, private readonly dispatch: Dispatch) { }
+  constructor(private readonly parseStrategy: IParseStrategy, private readonly graphService: IGraphService,
+    private readonly dispatch: Dispatch) { }
 
   private async parseFileCSV(file: File): Promise<StockClosePrice[]> {
     return new Promise<ParseResult<any>>((complete, error) => {
@@ -35,17 +38,22 @@ class DatasetLoadService implements IDatasetLoadService {
       return false;
     }
 
+    this.dispatch(stockDatasetsRemoveAllMutation());
     this.dispatch(stockDatasetsAddMutation({ code, closePrices }));
+
+    this.graphService.clearAllGraphs();
+    this.graphService.createGraphForStock(code);
 
     return true;
   }
 }
 
 export const useDatasetLoadService = (): IDatasetLoadService => {
+  const graphService = useGraphService();
   const dispatch = useDispatch();
 
   return useMemo(() =>
-    new DatasetLoadService(yahooFinanceParseStrategy(), dispatch),
-    [dispatch]
+    new DatasetLoadService(yahooFinanceParseStrategy(), graphService, dispatch),
+    [graphService, dispatch]
   );
 };

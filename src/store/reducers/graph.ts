@@ -1,40 +1,36 @@
 import { GraphState } from 'store/model/GraphState';
+import { GraphAddMutation } from 'store/mutations/graph/GraphAddMutation';
 import { IMutation } from 'store/mutations/IMutation';
-
-// const initialState: GraphState = {
-//   data: [
-//     {
-//       key: 'test',
-//       label: 'Test Chart',
-//       data: [
-//         [new Date(), 5],
-//         [new Date(Date.now() + 4 * 24 * 60 * 60 * 1000), 30],
-//         [new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), 50],
-//       ]
-//     },
-//     {
-//       key: 'test2',
-//       label: 'Test Chart 2',
-//       data: [
-//         [new Date(), 5],
-//         [new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), 30],
-//         [new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), 50],
-//       ]
-//     }
-//   ],
-//   axes: [
-//     { type: 'time', position: 'bottom', primary: true },
-//     { type: 'linear', position: 'left' }
-//   ],
-// };
+import { MutationType } from 'store/mutations/MutationType';
 
 const initialState: GraphState = {
   data: [],
-  axes: [],
+  axes: [
+    { type: 'time', position: 'bottom', primary: true },
+    { type: 'linear', position: 'left' },
+  ],
 };
 
 const reducer = (state: GraphState | undefined, mutation: IMutation): GraphState => {
-  return state ?? initialState;
+  state = state ?? initialState;
+
+  if (mutation.type === MutationType.GRAPH_ADD) {
+    const { data } = mutation as GraphAddMutation;
+    return {
+      ...state,
+      data: [
+        ...state.data.filter((d) => d.key !== data.key),
+        data,
+      ],
+    };
+  } else if (mutation.type === MutationType.GRAPH_REMOVE_ALL) {
+    return {
+      ...state,
+      data: [],
+    };
+  } else {
+    return state;
+  }
 };
 
 export default reducer;
