@@ -4,7 +4,6 @@ import { Grid } from '@mui/material';
 import { AppState } from 'store/model/AppState';
 import { InvestmentStrategy } from 'store/model/InvestmentStrategyState';
 import { InvestmentFrequency } from 'simulator/models/InvestmentStrategy';
-import './show-investment-strategy.css';
 
 const selector = (state: AppState): InvestmentStrategy | null => state.investmentStrategy.investmentStrategy;
 
@@ -36,7 +35,7 @@ const ShowInvestmentStrategy = (): JSX.Element => {
   }
 
   return (
-    <Grid container id='show-investment-strategy'>
+    <Grid container className='stats-container'>
       <Grid item xs={6}>
         Initial capital:
       </Grid>

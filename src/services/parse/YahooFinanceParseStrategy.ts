@@ -1,7 +1,8 @@
+import dayjs from 'dayjs';
 import { IParseStrategy } from './IParseStrategy';
 
 const parseToDate = (value: string): Date => {
-  const result = new Date(value);
+  const result = dayjs(value).toDate();
   if (Number.isNaN(result.getTime())) {
     throw new Error('Failure while parsing Date value');
   }

@@ -25,7 +25,7 @@ const ShowSimulationResult = (): JSX.Element => {
   }
 
   return (
-    <Grid container id='show-simulation-result'>
+    <Grid container id='show-simulation-result' className='stats-container'>
       <Grid item xs={6}>
         Invested capital:
       </Grid>

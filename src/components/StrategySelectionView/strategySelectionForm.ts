@@ -1,24 +1,38 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigationService } from 'services/NavigationService';
 import { InvestmentFrequency } from 'simulator/models/InvestmentStrategy';
+import { AppState } from 'store/model/AppState';
+import { InvestmentStrategy } from 'store/model/InvestmentStrategyState';
 import { Views } from 'store/model/NavigationState';
 import { investmentStrategySetStrategy } from 'store/mutations/investmentStrategy/InvestmentStrategySetStrategyMutation';
 import { simulationSetResultMutation } from 'store/mutations/simulation/SimulationSetResultMutation';
 
 const NUMERIC_ALLOWED_CHARS = /^[0-9]*(\.[0-9]{0,2})?$/;
 
+const selector = (state: AppState): InvestmentStrategy | null => state.investmentStrategy.investmentStrategy;
+
+const centsToDollars = (value: number | undefined) => {
+  return ((value ?? 0) / 100).toFixed(2);
+};
+
 export const useStrategySelectionForm = () => {
   const dispatch = useDispatch();
   const navigationService = useNavigationService();
-  const [initialCapital, setInitialCapital] = useState<string>('0');
-  const [additionalCapital, setAdditionalCapital] = useState<string>('0');
+  const existingStrategy = useSelector(selector);
+
+  const [initialCapital, setInitialCapital] = useState<string>(centsToDollars(existingStrategy?.initialCapital));
+  const [additionalCapital, setAdditionalCapital] = useState<string>(
+    centsToDollars(existingStrategy?.periodicAdditionalCapital)
+  );
   const [
     investmentFrequency,
     setInvestmentFrequency,
-  ] = useState<InvestmentFrequency | ''>('');
-  const [maxInvestmentPerTrade, setMaxInvestmentPerTrade] = useState<string>('0');
-  const [perTradeCost, setPerTradeCost] = useState<string>('0');
+  ] = useState<InvestmentFrequency | ''>(existingStrategy?.investmentFrequency ?? '');
+  const [maxInvestmentPerTrade, setMaxInvestmentPerTrade] = useState<string>(
+    centsToDollars(existingStrategy?.maxInvestmentPerTrade)
+  );
+  const [perTradeCost, setPerTradeCost] = useState<string>(centsToDollars(existingStrategy?.perTradeCost));
   const [frequencyErrorMsg, setFrequencyErrorMsg] = useState<string | null>(null);
 
   const setIfValidAmount = (setter: (value: string) => void) => (value: string) => {
