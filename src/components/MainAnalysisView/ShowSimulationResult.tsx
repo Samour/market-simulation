@@ -28,6 +28,18 @@ const ShowSimulationResult = (): JSX.Element => {
     <Grid item xs={12} sm={6} id='show-simulation-result'>
       <Grid container>
         <Grid item xs={6}>
+          Invested capital:
+        </Grid>
+        <Grid item xs={6}>
+          {toDollars(result.totalAmountInvested)}
+        </Grid>
+        <Grid item xs={6}>
+          Total expendature:
+        </Grid>
+        <Grid item xs={6}>
+          {toDollars(result.totalAmountSpent)}
+        </Grid>
+        <Grid item xs={6}>
           Uninvested capital:
         </Grid>
         <Grid item xs={6}>
@@ -44,6 +56,12 @@ const ShowSimulationResult = (): JSX.Element => {
         </Grid>
         <Grid item xs={6}>
           {toDollars(result.shareValue)}
+        </Grid>
+        <Grid item xs={6}>
+          Return on investment:
+        </Grid>
+        <Grid item xs={6}>
+          {result.returnOnInvestment} %
         </Grid>
       </Grid>
     </Grid>

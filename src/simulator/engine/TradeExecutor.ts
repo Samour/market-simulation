@@ -29,8 +29,12 @@ export class TradeExecutor implements ITradeExecutor {
       return;
     }
 
-    this.algorithmState.accountBalances.availableCapital -= shareCount * dateOfTrade.price;
-    this.algorithmState.accountBalances.availableCapital -= this.algorithmState.investmentStrategy.perTradeCost;
+    const shareCost = shareCount * dateOfTrade.price;
+    const shareAndTradeCost = shareCost + this.algorithmState.investmentStrategy.perTradeCost;
+
+    this.algorithmState.accountBalances.availableCapital -= shareAndTradeCost;
     this.algorithmState.accountBalances.sharesOwned += shareCount;
+    this.algorithmState.accountBalances.shareExpendature += shareCost;
+    this.algorithmState.accountBalances.totalExpendature += shareAndTradeCost;
   }
 }

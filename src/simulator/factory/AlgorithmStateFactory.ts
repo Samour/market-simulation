@@ -15,6 +15,8 @@ class AlgorithmStateFactory implements IAlgorithmStateFactory {
       accountBalances: {
         uninvestedCapital: investmentStrategy.initialCapital,
         availableCapital: 0,
+        shareExpendature: 0,
+        totalExpendature: 0,
         sharesOwned: 0,
       },
       lastPeriodCalculation: null,

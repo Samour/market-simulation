@@ -30,14 +30,25 @@ class SimulationService implements ISimulationService {
     );
 
     runner.execute();
-    const { uninvestedCapital, availableCapital, sharesOwned } = runner.getAccountBalances();
+    const {
+      uninvestedCapital,
+      availableCapital,
+      shareExpendature,
+      totalExpendature,
+      sharesOwned,
+    } = runner.getAccountBalances();
     const finalSharePrice = dataset.closePrices[dataset.closePrices.length - 1].price;
+    const shareValue = sharesOwned * finalSharePrice;
+    const returnOnInvestment = Math.round(shareValue * 100 * 100 / totalExpendature) / 100;
 
     this.store.dispatch(simulationInProgressMutation(false));
     this.store.dispatch(simulationSetResultMutation({
       uninvestedCapital: uninvestedCapital + availableCapital,
+      totalAmountInvested: shareExpendature,
+      totalAmountSpent: totalExpendature,
       sharesOwned,
-      shareValue: sharesOwned * finalSharePrice,
+      shareValue,
+      returnOnInvestment,
     }));
   }
 }
