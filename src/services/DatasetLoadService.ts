@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { StockClosePrice } from 'store/model/StockDatasetsState';
+import { simulationSetResultMutation } from 'store/mutations/simulation/SimulationSetResultMutation';
 import { stockDatasetsAddMutation } from 'store/mutations/stockDatasets/StockDatasetsAddMutation';
 import { stockDatasetsRemoveAllMutation } from 'store/mutations/stockDatasets/StockDatasetsRemoveAllMutation';
 import { IGraphService, useGraphService } from './GraphService';
@@ -38,6 +39,7 @@ class DatasetLoadService implements IDatasetLoadService {
 
     this.dispatch(stockDatasetsRemoveAllMutation());
     this.dispatch(stockDatasetsAddMutation({ code, closePrices }));
+    this.dispatch(simulationSetResultMutation(null));
 
     this.graphService.clearAllGraphs();
     this.graphService.createGraphForStock(code);

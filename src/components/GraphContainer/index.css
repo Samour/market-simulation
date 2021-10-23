@@ -1,6 +1,10 @@
 #graph-container {
-  height: 600px;
   width: 100%;
+  padding: 25px;
+}
+
+#graph-container .graph-container-inner {
+  height: 600px;
 }
 
 #graph-container.no-data {

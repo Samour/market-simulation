@@ -4,6 +4,7 @@ import { useNavigationService } from 'services/NavigationService';
 import { InvestmentFrequency } from 'simulator/models/InvestmentStrategy';
 import { Views } from 'store/model/NavigationState';
 import { investmentStrategySetStrategy } from 'store/mutations/investmentStrategy/InvestmentStrategySetStrategyMutation';
+import { simulationSetResultMutation } from 'store/mutations/simulation/SimulationSetResultMutation';
 
 const NUMERIC_ALLOWED_CHARS = /^[0-9]*(\.[0-9]{0,2})?$/;
 
@@ -48,6 +49,7 @@ export const useStrategySelectionForm = () => {
       maxInvestmentPerTrade: parseNumeric(maxInvestmentPerTrade),
       perTradeCost: parseNumeric(perTradeCost),
     }));
+    dispatch(simulationSetResultMutation(null));
     navigationService.navigateTo(Views.MainAnalysisView);
   };
 

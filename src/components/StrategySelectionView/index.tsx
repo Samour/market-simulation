@@ -64,9 +64,9 @@ const StrategySelectionView = (): JSX.Element => {
         <Grid item xs={12} className='input-container'>
           <Grid item xs={12} md={4}>
             <FormControl fullWidth>
-              <InputLabel>Additional Capital Frequency</InputLabel>
+              <InputLabel>Investment Frequency</InputLabel>
               <Select
-                label='Additional Capital Frequency'
+                label='Investment Frequency'
                 error={!!frequencyErrorMsg}
                 value={investmentFrequency}
                 onChange={(e) => setInvestmentFrequency(e.target.value as InvestmentFrequency)}>

@@ -43,7 +43,6 @@ class GraphService implements IGraphService {
       dataPoints = reducedDataPoints;
     }
 
-    console.log(dataPoints);
     this.store.dispatch(graphAddMutation({
       key: dataset.code,
       label: dataset.code,

@@ -36,39 +36,37 @@ const ShowInvestmentStrategy = (): JSX.Element => {
   }
 
   return (
-    <Grid container id='show-investment-strategy'>
-      <Grid item xs={12} sm={6}>
-        <Grid container>
-          <Grid item xs={6}>
-            Initial capital:
-          </Grid>
-          <Grid item xs={6}>
-            {toDollars(strategy.initialCapital)}
-          </Grid>
-          <Grid item xs={6}>
-            Periodic additional capital:
-          </Grid>
-          <Grid item xs={6}>
-            {toDollars(strategy.periodicAdditionalCapital)}
-          </Grid>
-          <Grid item xs={6}>
-            Investment frquency:
-          </Grid>
-          <Grid item xs={6}>
-            {frequencyDescription(strategy.investmentFrequency)}
-          </Grid>
-          <Grid item xs={6}>
-            Max investment per trade:
-          </Grid>
-          <Grid item xs={6}>
-            {toDollars(strategy.maxInvestmentPerTrade)}
-          </Grid>
-          <Grid item xs={6}>
-            Per-trade cost:
-          </Grid>
-          <Grid item xs={6}>
-            {toDollars(strategy.perTradeCost)}
-          </Grid>
+    <Grid item xs={12} sm={6} id='show-investment-strategy'>
+      <Grid container>
+        <Grid item xs={6}>
+          Initial capital:
+        </Grid>
+        <Grid item xs={6}>
+          {toDollars(strategy.initialCapital)}
+        </Grid>
+        <Grid item xs={6}>
+          Periodic additional capital:
+        </Grid>
+        <Grid item xs={6}>
+          {toDollars(strategy.periodicAdditionalCapital)}
+        </Grid>
+        <Grid item xs={6}>
+          Investment frquency:
+        </Grid>
+        <Grid item xs={6}>
+          {frequencyDescription(strategy.investmentFrequency)}
+        </Grid>
+        <Grid item xs={6}>
+          Max investment per trade:
+        </Grid>
+        <Grid item xs={6}>
+          {toDollars(strategy.maxInvestmentPerTrade)}
+        </Grid>
+        <Grid item xs={6}>
+          Per-trade cost:
+        </Grid>
+        <Grid item xs={6}>
+          {toDollars(strategy.perTradeCost)}
         </Grid>
       </Grid>
     </Grid>

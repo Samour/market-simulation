@@ -16,7 +16,9 @@ const GraphContainer = (): JSX.Element => {
 
   return (
     <div id='graph-container'>
-      <Chart data={data} axes={axes} tooltip />
+      <div className='graph-container-inner'>
+        <Chart data={data} axes={axes} tooltip />
+      </div>
     </div>
   );
 };
