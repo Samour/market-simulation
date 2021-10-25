@@ -8,6 +8,7 @@ export enum MutationType {
 
   // Graph
   GRAPH_ADD = 'GRAPH_ADD',
+  GRAPH_REMOVE = 'GRAPH_REMOVE',
   GRAPH_REMOVE_ALL = 'GRAPH_REMOVE_ALL',
 
   // InvestmentStrategy

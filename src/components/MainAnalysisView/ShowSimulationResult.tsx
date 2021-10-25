@@ -7,7 +7,7 @@ import './show-simulation-result.css';
 
 const selector = (state: AppState): SimulationState => state.simulationState;
 
-const toDollars = (value: number): string => `$${Math.round(value / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+const toDollars = (value: number): string => `$${(value / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
 
 const ShowSimulationResult = (): JSX.Element => {
   const { simulationInProgress, result } = useSelector(selector);

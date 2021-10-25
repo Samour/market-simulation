@@ -6,7 +6,8 @@ import { AppState } from 'store/model/AppState';
 import { InvestmentStrategy } from 'store/model/InvestmentStrategyState';
 import { SimulationSettings } from 'store/model/SimulationState';
 import { simulationInProgressMutation } from 'store/mutations/simulation/SimulationInProgressMutation';
-import { simulationSetResultMutation } from 'store/mutations/simulation/SimulationSetResultMutation';
+import { IGraphService, useGraphService } from './GraphService';
+import { SimulationAnalyser } from './SimulationAnalyser';
 
 export interface ISimulationService {
   runSimulation(): void;
@@ -14,8 +15,11 @@ export interface ISimulationService {
 
 class SimulationService implements ISimulationService {
 
-  constructor(private readonly simulationRunnerFactory: ISimulationRunnerFactory,
-    private readonly store: Store<AppState>) { }
+  constructor(
+    private readonly graphService: IGraphService,
+    private readonly simulationRunnerFactory: ISimulationRunnerFactory,
+    private readonly store: Store<AppState>,
+  ) { }
 
   runSimulation(): void {
     this.store.dispatch(simulationInProgressMutation(true));
@@ -33,35 +37,21 @@ class SimulationService implements ISimulationService {
       investmentStrategy as InvestmentStrategy,
     );
 
+    const simulationAnalyser = new SimulationAnalyser(this.graphService, this.store.dispatch, priceTimeSeries);
+    runner.setMetricListener((m) => simulationAnalyser.receiveMetric(m));
     runner.execute();
-    const {
-      uninvestedCapital,
-      availableCapital,
-      shareExpendature,
-      totalExpendature,
-      sharesOwned,
-    } = runner.getAccountBalances();
-    const finalSharePrice = priceTimeSeries[priceTimeSeries.length - 1].price;
-    const shareValue = sharesOwned * finalSharePrice;
-    const returnOnInvestment = Math.round(shareValue * 100 * 100 / totalExpendature) / 100;
+    simulationAnalyser.publishMetrics(runner.getAccountBalances());
 
     this.store.dispatch(simulationInProgressMutation(false));
-    this.store.dispatch(simulationSetResultMutation({
-      uninvestedCapital: uninvestedCapital + availableCapital,
-      totalAmountInvested: shareExpendature,
-      totalAmountSpent: totalExpendature,
-      sharesOwned,
-      shareValue,
-      returnOnInvestment,
-    }));
   }
 }
 
 export const useSimulationService = (): ISimulationService => {
+  const graphService = useGraphService();
   const store = useStore();
 
   return useMemo(() =>
-    new SimulationService(simulationRunnerFactory(), store),
-    [store]
+    new SimulationService(graphService, simulationRunnerFactory(), store),
+    [graphService, store]
   );
 };

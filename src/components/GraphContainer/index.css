@@ -5,6 +5,7 @@
 
 #graph-container .graph-container-inner {
   height: 600px;
+  width: 100%;
 }
 
 #graph-container.no-data {

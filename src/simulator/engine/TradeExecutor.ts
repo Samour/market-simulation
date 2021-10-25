@@ -1,3 +1,5 @@
+import { metricEvent } from 'simulator/metric/MetricEvent';
+import { IMetricEventBus } from 'simulator/metric/MetricEventBus';
 import { AlgorithmState } from 'simulator/models/AlgorithmState';
 import { StockClosePrice } from 'simulator/models/StockTimeSeries';
 
@@ -7,7 +9,7 @@ export interface ITradeExecutor {
 
 export class TradeExecutor implements ITradeExecutor {
 
-  constructor(private readonly algorithmState: AlgorithmState) { }
+  constructor(private readonly metricEventBus: IMetricEventBus, private readonly algorithmState: AlgorithmState) { }
 
   executeTrade(dateOfTrade: StockClosePrice): void {
     // Make capital available for investment
@@ -25,16 +27,20 @@ export class TradeExecutor implements ITradeExecutor {
     const shareCount = Math.floor(capitalForTrade / dateOfTrade.price);
 
     // Only execute trade if we can afford to buy at least 1 share
-    if (shareCount < 1) {
-      return;
+    if (shareCount >= 1) {
+      const shareCost = shareCount * dateOfTrade.price;
+      const shareAndTradeCost = shareCost + this.algorithmState.investmentStrategy.perTradeCost;
+
+      this.algorithmState.accountBalances.availableCapital -= shareAndTradeCost;
+      this.algorithmState.accountBalances.sharesOwned += shareCount;
+      this.algorithmState.accountBalances.shareExpendature += shareCost;
+      this.algorithmState.accountBalances.totalExpendature += shareAndTradeCost;
     }
 
-    const shareCost = shareCount * dateOfTrade.price;
-    const shareAndTradeCost = shareCost + this.algorithmState.investmentStrategy.perTradeCost;
-
-    this.algorithmState.accountBalances.availableCapital -= shareAndTradeCost;
-    this.algorithmState.accountBalances.sharesOwned += shareCount;
-    this.algorithmState.accountBalances.shareExpendature += shareCost;
-    this.algorithmState.accountBalances.totalExpendature += shareAndTradeCost;
+    this.metricEventBus.publishMetric(metricEvent(
+      dateOfTrade.date,
+      dateOfTrade.price,
+      this.algorithmState.accountBalances,
+    ));
   }
 }

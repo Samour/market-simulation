@@ -7,7 +7,7 @@ import { InvestmentFrequency } from 'simulator/models/InvestmentStrategy';
 
 const selector = (state: AppState): InvestmentStrategy | null => state.investmentStrategy.investmentStrategy;
 
-const toDollars = (value: number): string => `$${Math.round(value / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+const toDollars = (value: number): string => `$${(value / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
 
 const frequencyDescription = (frequency: InvestmentFrequency): string => {
   if (frequency === InvestmentFrequency.DAILY) {

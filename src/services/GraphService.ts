@@ -2,14 +2,19 @@ import { useMemo } from 'react';
 import { useStore } from 'react-redux';
 import { Store } from 'redux';
 import { AppState } from 'store/model/AppState';
-import { TimeSeriesDataPoint } from 'store/model/GraphState';
+import { TimeSeries, TimeSeriesDataPoint } from 'store/model/GraphState';
 import { StockDataset } from 'store/model/StockDatasetsState';
 import { graphAddMutation } from 'store/mutations/graph/GraphAddMutation';
 import { graphRemoveAllMutation } from 'store/mutations/graph/GraphRemoveAllMutation';
+import { graphRemoveMutation } from 'store/mutations/graph/GraphRemoveMutation';
 
 const MAX_DATA_POINTS = 500;
 
 export interface IGraphService {
+  createGraph(timeSeries: TimeSeries): void;
+
+  clearSimulationGraphs(): void;
+
   clearAllGraphs(): void;
 
   createGraphForStock(code: string): void;
@@ -23,6 +28,30 @@ class GraphService implements IGraphService {
     this.store.dispatch(graphRemoveAllMutation());
   }
 
+  createGraph(timeSeries: TimeSeries): void {
+    let { data } = timeSeries;
+    if (data.length > MAX_DATA_POINTS) {
+      const reducedDataPoints: TimeSeriesDataPoint[] = [];
+      for (let i = 0; i < MAX_DATA_POINTS; i++) {
+        const idx = Math.floor(i * data.length / MAX_DATA_POINTS);
+        reducedDataPoints.push(data[idx]);
+      }
+      data = reducedDataPoints;
+    }
+
+    this.store.dispatch(graphAddMutation({
+      key: timeSeries.key,
+      label: timeSeries.label,
+      secondaryAxisID: timeSeries.secondaryAxisID,
+      data,
+    }));
+  }
+
+  clearSimulationGraphs(): void {
+    this.store.dispatch(graphRemoveMutation('expenditure'));
+    this.store.dispatch(graphRemoveMutation('investment'));
+  }
+
   createGraphForStock(code: string): void {
     const dataset: StockDataset | undefined = this.store.getState()
       .stockDatasets
@@ -32,22 +61,15 @@ class GraphService implements IGraphService {
       return;
     }
 
-    let dataPoints: TimeSeriesDataPoint[] = dataset.closePrices
-      .map(({ date, price }) => [date, price]);
-    if (dataPoints.length > MAX_DATA_POINTS) {
-      const reducedDataPoints: TimeSeriesDataPoint[] = [];
-      for (let i = 0; i < MAX_DATA_POINTS; i++) {
-        const idx = Math.floor(i * dataPoints.length / MAX_DATA_POINTS);
-        reducedDataPoints.push(dataPoints[idx]);
-      }
-      dataPoints = reducedDataPoints;
-    }
+    let data: TimeSeriesDataPoint[] = dataset.closePrices
+      .map(({ date, price }) => [date, price / 100]);
 
-    this.store.dispatch(graphAddMutation({
+    this.createGraph({
       key: dataset.code,
       label: dataset.code,
-      data: dataPoints,
-    }));
+      secondaryAxisID: 'Stock Price',
+      data,
+    });
   }
 }
 

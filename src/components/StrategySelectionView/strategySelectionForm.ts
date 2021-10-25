@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useGraphService } from 'services/GraphService';
 import { useNavigationService } from 'services/NavigationService';
 import { InvestmentFrequency } from 'simulator/models/InvestmentStrategy';
 import { AppState } from 'store/model/AppState';
@@ -19,6 +20,7 @@ const centsToDollars = (value: number | undefined) => {
 export const useStrategySelectionForm = () => {
   const dispatch = useDispatch();
   const navigationService = useNavigationService();
+  const graphService = useGraphService();
   const existingStrategy = useSelector(selector);
 
   const [initialCapital, setInitialCapital] = useState<string>(centsToDollars(existingStrategy?.initialCapital));
@@ -64,6 +66,7 @@ export const useStrategySelectionForm = () => {
       perTradeCost: parseNumeric(perTradeCost),
     }));
     dispatch(simulationSetResultMutation(null));
+    graphService.clearSimulationGraphs();
     navigationService.navigateTo(Views.MainAnalysisView);
   };
 

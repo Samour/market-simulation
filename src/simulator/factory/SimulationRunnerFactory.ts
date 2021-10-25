@@ -5,6 +5,7 @@ import { IPeriodElapsedFactory, periodElapsedFactory } from './PeriodElapsedFact
 import { CapitalManager } from 'simulator/engine/CapitalManager';
 import { TradeExecutor } from 'simulator/engine/TradeExecutor';
 import { algorithmStateFactory, IAlgorithmStateFactory } from './AlgorithmStateFactory';
+import { MetricEventBus } from 'simulator/metric/MetricEventBus';
 
 export interface ISimulationRunnerFactory {
   createRunner(stockTimeSeries: StockTimeSeries, investmentStrategy: InvestmentStrategy): ISimulationRunner;
@@ -17,10 +18,13 @@ class SimulationRunnerFactory implements ISimulationRunnerFactory {
 
   createRunner(stockTimeSeries: StockTimeSeries, investmentStrategy: InvestmentStrategy): ISimulationRunner {
     const algorithmState = this.algorithmStateFactory.createAlgorithmState(stockTimeSeries, investmentStrategy);
+    const metricEventBus = new MetricEventBus();
+
     return new SimulationRunner(
+      metricEventBus,
       this.periodElapsedFactory.createPeriodElapsed(investmentStrategy),
       new CapitalManager(algorithmState),
-      new TradeExecutor(algorithmState),
+      new TradeExecutor(metricEventBus, algorithmState),
       algorithmState,
     );
   }
